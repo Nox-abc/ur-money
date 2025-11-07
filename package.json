@@ -10,14 +10,20 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "npm run server"
   },
-  "keywords": ["money", "finance", "budget", "self-hosted"],
+  "keywords": [
+    "money",
+    "finance",
+    "budget",
+    "self-hosted"
+  ],
   "author": "Ines Mouhouche Bideira",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "sqlite3": "^5.1.6",
-    "body-parser": "^1.20.2"
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.5.1",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
