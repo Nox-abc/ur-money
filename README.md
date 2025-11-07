@@ -16,7 +16,7 @@ A self-hosted web application to manage your money and track your spending. Buil
 The easiest way to run ur-money is with Docker:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Then open your browser to `http://localhost:3001`
@@ -41,19 +41,19 @@ cd ur-money
 
 2. Start the application:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 3. Access the application at `http://localhost:3001`
 
 To stop the application:
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To view logs:
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ### Option 2: Manual Installation
@@ -106,6 +106,21 @@ npm run dev
 This will start:
 - Backend server on `http://localhost:3001`
 - React development server on `http://localhost:3000`
+
+## Configuration
+
+You can customize the application by creating a `.env` file in the root directory. See `.env.example` for available options:
+
+- `PORT` - Server port (default: 3001)
+- `REACT_APP_CURRENCY` - Currency code for display (default: USD)
+- `REACT_APP_LOCALE` - Locale for number formatting (default: en-US)
+
+Example `.env` file:
+```bash
+PORT=3001
+REACT_APP_CURRENCY=EUR
+REACT_APP_LOCALE=de-DE
+```
 
 ## Data Storage
 

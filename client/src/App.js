@@ -109,9 +109,11 @@ function App() {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+    const currency = process.env.REACT_APP_CURRENCY || 'USD';
+    const locale = process.env.REACT_APP_LOCALE || 'en-US';
+    return new Intl.NumberFormat(locale, {
       style: 'currency',
-      currency: 'USD'
+      currency: currency
     }).format(amount);
   };
 

@@ -15,14 +15,14 @@ if command -v docker &> /dev/null && command -v docker-compose &> /dev/null; the
     echo "✓ Docker and Docker Compose found"
     echo ""
     echo "Starting ur-money with Docker..."
-    docker-compose up -d
+    docker compose up -d
     echo ""
     echo "✓ ur-money is now running!"
     echo ""
     echo "Access the application at: http://localhost:3001"
     echo ""
-    echo "To stop: docker-compose down"
-    echo "To view logs: docker-compose logs -f"
+    echo "To stop: docker compose down"
+    echo "To view logs: docker compose logs -f"
 elif command -v node &> /dev/null && command -v npm &> /dev/null; then
     echo "✓ Node.js and npm found"
     echo ""
@@ -41,15 +41,8 @@ elif command -v node &> /dev/null && command -v npm &> /dev/null; then
     echo "✓ Installation complete!"
     echo ""
     echo "Starting ur-money..."
-    npm start &
-    SERVER_PID=$!
-    
-    echo ""
-    echo "✓ ur-money is now running!"
-    echo ""
-    echo "Access the application at: http://localhost:3001"
-    echo ""
-    echo "To stop: kill $SERVER_PID"
+    echo "To stop the server, use: pkill -f 'node server/index.js'"
+    npm start
 else
     echo "❌ Error: Neither Docker nor Node.js found"
     echo ""

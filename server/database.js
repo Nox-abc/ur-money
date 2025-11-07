@@ -1,10 +1,17 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
-const dbPath = path.join(__dirname, '..', 'data', 'urmoney.db');
+const DATA_DIR = path.resolve(__dirname, '..', 'data');
+const dbPath = path.join(DATA_DIR, 'urmoney.db');
 
 class Database {
   constructor() {
+    // Ensure data directory exists
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+
     this.db = new sqlite3.Database(dbPath, (err) => {
       if (err) {
         console.error('Error connecting to database:', err);
