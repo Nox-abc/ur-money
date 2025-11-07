@@ -32,7 +32,9 @@ app.use('/api/', limiter); // Apply rate limiting to API routes
 
 // Serve static files from React build
 const buildPath = path.join(__dirname, '..', 'client', 'build');
-if (fs.existsSync(buildPath)) {
+const buildExists = fs.existsSync(buildPath);
+
+if (buildExists) {
   app.use(express.static(buildPath));
 }
 
@@ -202,9 +204,15 @@ app.get('/api/spending-by-category', (req, res) => {
   });
 });
 
-// Serve React app for all other routes
+// Serve React app for all other routes (not API routes)
+// Note: This catch-all route handles client-side routing for the React SPA
 app.get('*', (req, res) => {
-  if (fs.existsSync(buildPath)) {
+  // Skip API routes (already handled above)
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  if (buildExists) {
     res.sendFile(path.join(buildPath, 'index.html'));
   } else {
     res.json({ 
