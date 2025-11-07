@@ -15,11 +15,19 @@ if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-// Rate limiting middleware
-const limiter = rateLimit({
+// Rate limiting middleware for API
+const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Rate limiting middleware for static pages (more lenient)
+const pageLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // Higher limit for page requests
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -28,7 +36,7 @@ const limiter = rateLimit({
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api/', limiter); // Apply rate limiting to API routes
+app.use('/api/', apiLimiter); // Apply rate limiting to API routes
 
 // Serve static files from React build
 const buildPath = path.join(__dirname, '..', 'client', 'build');
@@ -206,7 +214,7 @@ app.get('/api/spending-by-category', (req, res) => {
 
 // Serve React app for all other routes (not API routes)
 // Note: This catch-all route handles client-side routing for the React SPA
-app.get('*', (req, res) => {
+app.get('*', pageLimiter, (req, res) => {
   // Skip API routes (already handled above)
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
